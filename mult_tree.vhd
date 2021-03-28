@@ -63,19 +63,18 @@ architecture STR of mult_tree is
 	
 	type arr256a is array (255 downto 0) of std_logic_vector(7  downto 0);
 	type arr256 is array (255 downto 0) of std_logic_vector(8  downto 0);
-	type arr128 is array (127 downto 0) of std_logic_vector(9  downto 0);
-	type arr64 	is array (63  downto 0) of std_logic_vector(10  downto 0);
-	type arr32 	is array (31  downto 0) of std_logic_vector(11 downto 0);
-	type arr16 	is array (15  downto 0) of std_logic_vector(12 downto 0);
-	type arr8 	is array (7   downto 0) of std_logic_vector(13 downto 0);
-	type arr4 	is array (3   downto 0) of std_logic_vector(14 downto 0);
-	type arr2 	is array (1   downto 0) of std_logic_vector(15 downto 0);
+	type arr128 is array (127 downto 0) of std_logic_vector(8  downto 0);
+	type arr64 	is array (63  downto 0) of std_logic_vector(9  downto 0);
+	type arr32 	is array (31  downto 0) of std_logic_vector(10 downto 0);
+	type arr16 	is array (15  downto 0) of std_logic_vector(11 downto 0);
+	type arr8 	is array (7   downto 0) of std_logic_vector(12 downto 0);
+	type arr4 	is array (3   downto 0) of std_logic_vector(13 downto 0);
+	type arr2 	is array (1   downto 0) of std_logic_vector(14 downto 0);
 
 	signal A : std_logic_vector(7 downto 0);
 	signal B : std_logic_vector(7 downto 0);
 	signal T : std_logic_vector(255 downto 0);
 	signal M  : arr256a;
-	signal R1 : arr256;
 	signal R2 : arr128;
 	signal R3 : arr64;
 	signal R4 : arr32;
@@ -83,7 +82,7 @@ architecture STR of mult_tree is
 	signal R6 : arr8;
 	signal R7 : arr4;
 	signal R8 : arr2;
-	signal R9 : std_logic_vector(16 downto 0);
+	signal R9 : std_logic_vector(15 downto 0);
 
 begin
 	REGA: reg
@@ -122,36 +121,24 @@ begin
 		port map(
 		a => A,
 		b => B,
-		sel => KEY,
+		sel => SW(9 downto 8),
 		x => LEDR
 		);
-	LEV1 : for i in 0 to 255 generate
-		L1: add_pipe
-		generic map (8)
-		port map(
-			clk => KEY(1),
-			rst => KEY(0),
-			load => '1',
-			in1 => A,
-			in2 => M(i),
-			output => R1(i)
-		);
-	end generate;
 	LEV2 : for i in 0 to 127 generate
 		L2: add_pipe
-		generic map(9)
+		generic map(8)
 		port map(
 			clk => KEY(1),
 			rst => KEY(0),
 			load => '1',
-			in1 => R1(2*i),
-			in2 => R1((2*i)+1),
+			in1 => M(2*i),
+			in2 => M((2*i)+1),
 			output => R2(i)
 		);
 	end generate;
 	LEV3 : for i in 0 to 63 generate
 		L3: add_pipe
-		generic map(10)
+		generic map(9)
 		port map(
 			clk => KEY(1),
 			rst => KEY(0),
@@ -163,7 +150,7 @@ begin
 	end generate;
 	LEV4 : for i in 0 to 31 generate
 		L4: add_pipe
-		generic map(11)
+		generic map(10)
 		port map(
 			clk => KEY(1),
 			rst => KEY(0),
@@ -175,7 +162,7 @@ begin
 	end generate;
 	LEV5 : for i in 0 to 15 generate
 		L5: add_pipe
-		generic map(12)
+		generic map(11)
 		port map(
 			clk => KEY(1),
 			rst => KEY(0),
@@ -187,7 +174,7 @@ begin
 	end generate;
 	LEV6 : for i in 0 to 7 generate
 		L6: add_pipe
-		generic map(13)
+		generic map(12)
 		port map(
 			clk => KEY(1),
 			rst => KEY(0),
@@ -199,7 +186,7 @@ begin
 	end generate;
 	LEV7 : for i in 0 to 3 generate
 		L7: add_pipe
-		generic map(14)
+		generic map(13)
 		port map(
 			clk => KEY(1),
 			rst => KEY(0),
@@ -211,7 +198,7 @@ begin
 	end generate;
 	LEV8 : for i in 0 to 1 generate
 		L8: add_pipe
-		generic map(15)
+		generic map(14)
 		port map(
 			clk => KEY(1),
 			rst => KEY(0),
@@ -222,7 +209,7 @@ begin
 		);
 	end generate;
 	L9: add_pipe
-		generic map(16)
+		generic map(15)
 		port map(
 			clk => KEY(1),
 			rst => KEY(0),
@@ -688,8 +675,7 @@ end entity;
 
 architecture behavior of mux_4to1_8wide is
 	begin
-	x <= a when sel = "01" else
-		  b when sel = "10" else "00000000";
+		x <= a when sel = "10" else
+		     b when sel = "01" else "00000000";
 end behavior;
-	
 

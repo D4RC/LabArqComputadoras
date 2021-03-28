@@ -40,16 +40,38 @@ architecture behavior of tb_mult_tree is
 				keyt <= "10";
 				wait for 10 ns;
 				keyt <= "00";
-				swt <= "1011111111";
-				wait for 10 ns;
+				
+				
+				swt <= "0000000000";
 				keyt <= "10";
-				swt <= "1011111111";
 				wait for 10 ns;
 				keyt <= "00";
-				swt <= "0111111111";
+				wait for 10 ns;
+				
+				
+				
+				swt <= "1011111111";
 				wait for 10 ns;
 				keyt <= "10";
-				swt <= "0111111111";
+				swt <= "1011111111";
+				wait for 10 ns;
+				
+				keyt <= "00";
+				wait for 10 ns;
+				keyt <= "10";
+				wait for 10 ns;
+				
+				keyt <= "00";
+				wait for 10 ns;
+				keyt <= "10";
+				wait for 10 ns;
+				
+				
+				keyt <= "00";
+				swt <= "0111100011";
+				wait for 10 ns;
+				keyt <= "10";
+				swt <= "0111100011";
 				wait for 10 ns;
 				
 				keyt <= "00";
