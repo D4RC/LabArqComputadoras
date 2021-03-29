@@ -324,9 +324,9 @@ architecture BHV of reg is
   	begin
     	process(clk,rst)
     	begin    
-    	if (rst = '1') then
+    	if (rst = '0') then
         	output <= (others => '0');      
-      	elsif (clk'event and clk='1') then
+      	elsif (clk'event and clk ='0') then
         	if (en = '1') then
             	output <= input;      
         	end if;
